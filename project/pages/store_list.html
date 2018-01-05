@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>门店列表</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+		<link rel="stylesheet" href="../dist/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="../dist/css/base.css" />
+		<link rel="stylesheet" href="../dist/css/store_list.css" />
+	</head>
+
+	<body onkeydown="key_search()">
+		<div id="parent">
+			<div id="header" class="hidden-xs hidden-sm">
+				<div class="container">
+					<!--搜索区-->
+					<div class="row no_margin">
+						<div class="col-md-8 col-md-offset-2 search_box">
+							<!--<h2 class="col-md-12 search_title">LOGO门店搜索</h2>-->
+							<nav class="navbar navbar-default" role="navigation">
+								<div class="navbar-header col-sm-3 col-xs-3 search_title">
+									<a class="navbar-brand" href="#">LOGO搜索</a>
+								</div>
+								<div class="col-sm-9 col-xs-12 input_box">
+									<form class="navbar-form navbar-left col-sm-12  col-sm-12 col-xs-12 search_area no_padding" role="search" action="javascript:;">
+										<div class="form-group col-md-10 col-sm-10 col-xs-10 form_input no_padding">
+											<input type="text" class="form-control" placeholder="Search" v-model="search_val" />
+										</div>
+										<button type="button" class="btn btn-default col-md-2 col-sm-2 col-xs-2 search_btn" v-on:click="search"  >搜索</button>
+									</form>
+								</div>
+							</nav>
+						</div>
+					</div>
+					<!--地址选择区-->
+					<div class="row no_margin">
+						<div class="col-md-12 address">
+							<span v-on:click="select_area">
+								<img src="../dist/img/adress1.png" alt="" />
+								<strong>{{current_city}}</strong>
+							</span>
+							<!--地址选取-->
+							<div class="col-md-12 select_area">
+								<ul class="area_list">
+									<li v-bind:class="{'active':select_index==index}" v-on:click="select" v-bind:data_id="item.id" v-bind:data_index="index" v-bind:area_val="item.city_name" v-for="(item , index) in area_list">
+										<span v-bind:data_id="item.id" v-bind:data_index="index" v-bind:area_val="item.city_name">{{item.city_name}}</span>
+									</li>
+
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--内容区-->
+			<div class="content">
+				<!--PC端显示-->
+				<div class="container hidden-xs hidden-sm">
+					<div class="row">
+						<ul class="store_list">
+							<li class="col-sm-3 col-xs-3 no_padding" v-for="(item , index) in store_list" v-on:click="store_details" v-bind:data_id="item.id">
+								<a href="javascript:;">
+									<div class="pro_img">
+										<img v-bind:src="item.store_img" alt="" v-on:click="store_details" v-bind:data_id="item.id" />
+									</div>
+									<div class="msg">
+										<h2 v-on:click="store_details" v-bind:data_id="item.id">{{item.store_map_val}}</h2>
+										<h3 v-on:click="store_details" v-bind:data_id="item.id">{{item.store_name}}</h3>
+										<p v-on:click="store_details" v-bind:data_id="item.id">{{item.store_address}}</p>
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+
+					<!--分页-->
+					<div class="hidden-xs hidden-sm row">
+						<div id="page" class="page_div"></div>
+					</div>
+				</div>
+				<!--移动端-->
+				<div class="container mobile_content visible-xs-block visible-sm-block">
+					<div class="row no_margin">
+						<ul class="mobile_store_list">
+							<li class="clearfix" v-for="(item , index) in mobile_store_list">
+								<a href="javascript:;" v-bind:data_id="item.id">
+									<div class="left" v-bind:data_id="item.id">
+										<img v-bind:src="item.store_img" alt="" v-on:click="store_details" v-bind:data_id="item.id" />
+									</div>
+									<div class="right">
+										<h2 v-on:click="store_details" v-bind:data_id="item.id">{{item.store_map_val}}</h2>
+										<h3 v-on:click="store_details" v-bind:data_id="item.id">{{item.store_name}}</h3>
+										<p v-on:click="store_details" v-bind:data_id="item.id">{{item.store_address}}</p>
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--加载loading-->
+		<div class="loading">
+			<div class="wrap">
+				<img src="../dist/img/loading.gif" alt="" />
+			    <p>加载中!!</p>
+			</div>
+		</div>
+		<!--<div class="footer">
+			<p>@2017 搜索引擎旗下所搜服务 京ICP备0926372810号-18 京公网安备110083620900088号</p>
+		</div>-->
+	</body>
+	<script type="text/javascript" src="../dist/js/jquery-1.11.2.min.js"></script>
+	<script type="text/javascript" src="../dist/js/paging.js"></script>
+	<script type="text/javascript" src="../dist/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../dist/js/base.js"></script>
+	<script type="text/javascript" src="../dist/js/vue_min.js"></script>
+	<script type="text/javascript" src="../dist/js/store_list.js"></script>
+
+</html>

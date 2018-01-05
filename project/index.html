@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>首页</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+		<link rel="stylesheet" href="./dist/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="./dist/css/base.css" />
+		<link rel="stylesheet" href="./dist/css/index.css" />
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=vQ95EQiZCWnwBeplX6rMeqCvr2g1FFD8"></script>
+	</head>
+	<body onkeydown="key_search()">
+		<div id="parent">
+			<div id="header">
+				<div class="container">
+					<!--地址选择区-->
+					<div class="row no_margin">
+						<div class="col-md-12 address">
+							<img src="./dist/img/adress1.png" alt="" />
+							<span v-on:click="select_area">{{current_city}}</span>
+							<!--地址选取-->
+							<div class="col-md-12 select_area">
+								<ul class="area_list">
+									<li v-bind:class="{'active':select_index==index}" v-on:click="select"  v-bind:data_id="item.id" v-bind:data_index="index" v-bind:area_val="item.city_name"  v-for="(item , index) in area_list">
+										<span v-bind:data_id="item.id" v-bind:data_index="index" v-bind:area_val="item.city_name">{{item.city_name}}</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!--搜索区-->
+					<div class="row no_margin">
+						<div class="col-md-8 col-md-offset-2 search_box">
+							<h2 class="col-md-12 search_title">LOGO门店搜索</h2>
+							<nav class="navbar navbar-default" role="navigation">
+								<div class="col-sm-12 col-xs-12 input_box">
+									<form class="navbar-form navbar-left col-sm-12  col-sm-12 col-xs-12 search_area no_padding" role="search" action="javascript:;">
+										<div class="form-group col-md-10 col-sm-10 col-xs-10 form_input no_padding">
+											<input type="text" class="form-control" placeholder="Search" v-model="search_store" />
+										</div>
+										<button type="button" class="btn btn-default col-md-2 col-sm-2 col-xs-2 search_btn" v-on:click="search">搜索</button>
+									</form>
+								</div>
+							</nav>
+						</div>
+					</div>
+					<!--热门搜索-->
+					<div class="row no_margin hot_area">
+						<div class="col-xs-12 visible-xs-block hot_title">热门搜索</div>
+						<div class="col-sm-6 col-xs-12 col-sm-offset-3 no_padding">
+							<ul class="hot_tab clearfix">
+								<li v-for="(item , index ) in hot_sea" v-on:click="hot_search_store" v-bind:search_val="item.hot_name">
+									<span v-on:click="hot_search_store" v-bind:search_val="item.hot_name">{{item.hot_name}}</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="allmap" style="display:none;"></div>
+		<div class="footer">
+			<p>@2017 搜索引擎旗下所搜服务 京ICP备0926372810号-18 京公网安备110083620900088号</p>
+		</div>
+	</body>
+	<script type="text/javascript" src="./dist/js/jquery-1.11.2.min.js"></script>
+	<script type="text/javascript" src="./dist/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="./dist/js/base.js"></script>
+	<script type="text/javascript" src="dist/js/vue_min.js"></script>
+	<script type="text/javascript" src="./dist/js/index.js"></script>
+
+</html>

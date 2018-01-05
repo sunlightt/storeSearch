@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>门店详情</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+		<link rel="stylesheet" href="../dist/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="../dist/css/base.css" />
+		<link rel="stylesheet" href="../dist/css/store_details.css" />
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=vQ95EQiZCWnwBeplX6rMeqCvr2g1FFD8"></script>
+	</head>
+
+	<body onkeydown="key_search()">
+		<div id="parent">
+			<div id="header" class="hidden-xs hidden-sm">
+				<div class="container">
+					<!--搜索区-->
+					<div class="row no_margin">
+						<div class="col-md-8 col-md-offset-2 search_box">
+							<!--<h2 class="col-md-12 search_title">LOGO门店搜索</h2>-->
+							<nav class="navbar navbar-default" role="navigation">
+								<div class="navbar-header col-sm-3 col-xs-3 search_title">
+									<a class="navbar-brand" href="#">LOGO搜索</a>
+								</div>
+								<div class="col-sm-9 col-xs-12 input_box">
+									<form class="navbar-form navbar-left col-sm-12  col-sm-12 col-xs-12 search_area no_padding" role="search" action="javascript:;">
+										<div class="form-group col-md-10 col-sm-10 col-xs-10 form_input no_padding">
+											<input type="text" class="form-control" placeholder="Search" v-model="search_store" />
+										</div>
+										<button type="button" class="btn btn-default col-md-2 col-sm-2 col-xs-2 search_btn" v-on:click="search">搜索</button>
+									</form>
+								</div>
+							</nav>
+						</div>
+					</div>
+					<!--地址选择区-->
+					<div class="row no_margin">
+						<div class="col-md-12 address">
+							<span v-on:click="select_area">
+								<img src="../dist/img/adress1.png" alt="" />
+								<strong>{{current_city}}</strong>
+							</span>
+							<!--地址选取-->
+							<div class="col-md-12 select_area">
+								<ul class="area_list">
+									<li v-bind:class="{'active':select_index==index}" v-on:click="select" v-bind:data_id="item.id" v-bind:data_index="index" v-bind:area_val="item.city_name" v-for="(item , index) in area_list">
+										<span v-bind:data_id="item.id" v-bind:data_index="index" v-bind:area_val="item.city_name">{{item.city_name}}</span>
+									</li>
+									<!--<li class="active">
+										<span>北京</span>
+									</li>
+									<li>
+										<span>北京</span>
+									</li>
+									<li>
+										<span>北京</span>
+									</li>
+									<li>
+										<span>北京</span>
+									</li>
+									<li>
+										<span>北京</span>
+									</li>
+									<li>
+										<span>北京</span>
+									</li>
+									<li>
+										<span>北京</span>
+									</li>-->
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--内容区-->
+			<div class="content">
+				<div class="container">
+					<!--轮播图-->
+					<div id="myCarousel" class="carousel slide">
+						<!-- 轮播（Carousel）指标 -->
+						<ol class="carousel-indicators banner_bot">
+							<!--<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+							<li data-target="#myCarousel" data-slide-to="1"></li>
+							<li data-target="#myCarousel" data-slide-to="2"></li>
+							<li data-target="#myCarousel" data-slide-to="2"></li>-->
+						</ol>
+						<!-- 轮播（Carousel）项目 -->
+						<div class="carousel-inner banner_container" data-interval>
+							<!--<div class="item active" v-for="(item , index) in banner">
+								<img v-bind:src="item.store_img" alt="First slide">
+							</div>-->
+							<div class="item " v-bind:class="{'active':index==0}" v-for="(item , index) in banner">
+								<img v-bind:src="item.store_img" alt="First slide">
+							</div>
+							<!--<div class="item">
+								<img src="../dist/img/banner.png" alt="Second slide">
+							</div>
+							<div class="item">
+								<img src="../dist/img/banner.png" alt="Third slide">
+							</div>-->
+						</div>
+						<!-- 轮播（Carousel）导航 -->
+						<a class="carousel-control left" href="#myCarousel" data-slide="prev">
+							<span>&lsaquo;</span>
+						</a>
+						<a class="carousel-control right" href="#myCarousel" data-slide="next">
+							<span>&rsaquo;</span>
+						</a>
+					</div>
+
+					<!--文字介绍-->
+					<div class="row hidden-xs hidden-sm no_margin msg_area">
+						<div class="msg_title">
+							<h2 class="title">{{store_data.store_name}} </h2>
+							<p>{{store_data.store_dec}}</p>
+						</div>
+
+						<div class="msg_details">
+							<h3>{{store_data.store_address}} {{distance}}千米</h3>
+							<p>{{store_data.store_map_val}}</p>
+							<p>商业时间 :{{store_data.store_time}}</p>
+							<p>联系电话 :{{store_data.store_tel}}</p>
+						</div>
+					</div>
+					<!--移动端文字信息-->
+					<div class="row no_margin visible-xs-block visible-sm-block msg_wrap">
+						<div class="msg_title">
+							<h2 class="title">{{store_data.store_name}}</h2>
+							<p>{{store_data.store_dec}}</p>
+						</div>
+						<!--联系信息-->
+						<div class="contact">
+							<h2 class="time">营业时间:{{store_data.store_time}}</h2>
+							<div class="adress clearfix">
+								<div class="left">
+									<h2>{{store_data.store_address}} {{distance}}千米</h2>
+									<p>{{store_data.store_map_val}}</p>
+								</div>
+								<div class="right tell_iphone">
+									<a href="tel:123-123-123">
+										<img src="../dist/img/tell.png" alt="" />
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--地图-->
+					<div class="row no_margin">
+						<div class="col-sm-12">
+							<div id="allmap"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--<div class="footer">
+			<p>@2017 搜索引擎旗下所搜服务 京ICP备0926372810号-18 京公网安备110083620900088号</p>
+		</div>-->
+	</body>
+	<script type="text/javascript" src="../dist/js/jquery-1.11.2.min.js"></script>
+	<script type="text/javascript" src="../dist/js/bootstrap.min.js"></script>
+	<!--<script type="text/javascript" src="../dist/js/hammer.min.js"></script>
+    <script type="text/javascript" src="../dist/js/jquery.hammer.js"></script>-->
+    <script type="text/javascript" src="../dist/js/jquery.touchSwipe.js"></script>
+	<script type="text/javascript" src="../dist/js/base.js"></script>
+	<script type="text/javascript" src="../dist/js/vue_min.js"></script>
+	<script type="text/javascript" src="../dist/js/store_details.js"></script>
+
+	
+
+	<script>
+		$('#myCarousel').carousel({
+			interval: 2000
+		});
+		$(function() {
+			$("#myCarousel").swipe({
+				swipeLeft: function() {
+					$(this).carousel('next');
+				},
+				swipeRight: function() {
+					$(this).carousel('prev');
+				},
+			});
+		});
+	</script>
+
+</html>
